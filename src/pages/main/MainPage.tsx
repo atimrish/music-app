@@ -1,5 +1,5 @@
-import {StyleSheet, Text, View} from "react-native";
-import {ActionButton} from "./ui/action-button/ActionButton";
+import { StyleSheet, Text, View } from "react-native";
+import { ActionButton } from "./ui/action-button/ActionButton";
 
 const styles = StyleSheet.create({
 	container: {
@@ -33,12 +33,12 @@ export const MainPage = () => {
                 <Text style={styles.addText}>Добавить</Text>
 
 				<View style={styles.container}>
-					<ActionButton text="Изображение" />
-					<ActionButton text="Исполнителя" />
-					<ActionButton text="Аудио" />
-					<ActionButton text="Плейлист" />
+					<ActionButton text="Изображение" url="/add-image" />
+					<ActionButton text="Исполнителя" url="/add-author" />
+					<ActionButton text="Аудио" url="/add-audio" />
+					<ActionButton text="Плейлист" url="/add-playlist" />
 				</View>
 			</View>
 		</View>
-	);
+	);	
 };

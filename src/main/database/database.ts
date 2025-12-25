@@ -26,6 +26,7 @@ export const setupDb = async () => {
             name TEXT NOT NULL,
             author_id INTEGER,
             cover_id INTEGER,
+            src TEXT NOT NULL,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 
             FOREIGN KEY (author_id) REFERENCES author (id) ON DELETE CASCADE,

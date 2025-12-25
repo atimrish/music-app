@@ -1,4 +1,4 @@
-import {MainPage} from "@/src/pages/main-page/MainPage";
+import {MainPage} from "@/src/pages/main/MainPage";
 
 const Index = () => {
 	return <MainPage />;
