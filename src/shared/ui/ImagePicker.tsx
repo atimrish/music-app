@@ -1,5 +1,4 @@
 import * as DocumentPicker from "expo-document-picker";
-import { useState } from "react";
 import { Image, StyleSheet, TouchableOpacity } from "react-native";
 
 const styles = StyleSheet.create({
@@ -8,30 +7,36 @@ const styles = StyleSheet.create({
 		height: 300,
 		backgroundColor: "#dadada",
 		borderRadius: 15,
-        overflow: 'hidden'
+		overflow: "hidden",
 	},
-    image: {
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover'
-    }
+	image: {
+		width: "100%",
+		height: "100%",
+		objectFit: "cover",
+	},
 });
 
-const pickFile = async () => {
-	const {canceled, assets} = await DocumentPicker.getDocumentAsync({
-		type: "image/*",
-		multiple: false,
-        copyToCacheDirectory: true
-	});
-	return canceled ? "" : assets[0].uri;
+type Props = {
+	src: string;
+	onPick: (uri: string) => void;
 };
 
-export const ImagePicker = () => {
-	const [src, setSrc] = useState("");
+export const ImagePicker = (p: Props) => {
+	const pickFile = async () => {
+		const {canceled, assets} = await DocumentPicker.getDocumentAsync({
+			type: "image/*",
+			multiple: false,
+			copyToCacheDirectory: true,
+		});
+
+		if (!canceled) {
+			p.onPick(assets[0].uri)
+		}
+	};
 
 	return (
-		<TouchableOpacity style={styles.container} onPress={() => pickFile().then(setSrc)}>
-			<Image style={styles.image} source={{uri: src}} />
+		<TouchableOpacity style={styles.container} onPress={pickFile}>
+			<Image style={styles.image} source={p.src ? {uri: p.src} : undefined} />
 		</TouchableOpacity>
 	);
 };
