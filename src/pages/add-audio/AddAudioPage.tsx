@@ -21,7 +21,7 @@ export const AddAudioPage = () => {
 	const [audioSrc, setAudioSrc] = useState("");
 	const [name, setName] = useState("");
 
-	const data = authors ? authors.map((i) => ({value: i.id.toString(), text: i.name})) : [];
+	const data = authors ? authors.map((i) => ({value: i.id, text: i.name})) : [];
 
 	useEffect(() => {
 		getAuthorsAll().then(setAuthors).catch(console.error);
@@ -34,22 +34,21 @@ export const AddAudioPage = () => {
 			try {
 				const audioFile = new File(audioSrc);
 				audioFile.rename(trimmedName + "_" + audioFile.name);
-				const dirToMove = new Directory(AUDIO_PATH)
-				audioFile.move(dirToMove)
-				
+				const dirToMove = new Directory(AUDIO_PATH);
+				audioFile.move(dirToMove);
+
 				await addAudio({
 					name: trimmedName,
 					authorId: selectedAuthorId,
 					coverId: cover.id,
-					src: audioFile.uri
-				})
-				Alert.alert("Аудио добавлено успешно!")
+					src: audioFile.uri,
+				});
+				Alert.alert("Аудио добавлено успешно!");
 
-				setCover(null)
-				setSelectedAuthorId(-1)
-				setAudioSrc(''),
-				setName('')
-
+				setCover(null);
+				setSelectedAuthorId(-1);
+				setAudioSrc("");
+				setName("");
 			} catch (e) {
 				Alert.alert("Ошибка при добавлении аудио", String(e));
 				console.error(e);
@@ -70,7 +69,7 @@ export const AddAudioPage = () => {
 				<SearchList
 					data={data}
 					onSelect={(i) => {
-						setSelectedAuthorId(+i.value);
+						setSelectedAuthorId(i.value);
 					}}
 				/>
 

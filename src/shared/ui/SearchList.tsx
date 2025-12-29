@@ -1,9 +1,9 @@
-import {useState} from "react";
-import {Dimensions, FlatList, Modal, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import {ModalTopPanel} from "./ModalTopPanel";
-import {StyledTextInput} from "./StyledTextInput";
-import {VerticalMargin} from "./VerticalMargin";
-import {Wrapper} from "./Wrapper";
+import { useState } from "react";
+import { Dimensions, FlatList, ListRenderItem, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ModalTopPanel } from "./ModalTopPanel";
+import { StyledTextInput } from "./StyledTextInput";
+import { VerticalMargin } from "./VerticalMargin";
+import { Wrapper } from "./Wrapper";
 
 const styles = StyleSheet.create({
 	dropItem: {
@@ -33,26 +33,42 @@ const styles = StyleSheet.create({
 		fontWeight: 700,
 	},
 	list: {
-		// borderWidth: 1,
 		height: Dimensions.get("window").height - 170,
 	},
 });
 
-type TSearchListItem = {
-	value: string;
+type TSearchListItem<T extends any = any> = {
+	value: T;
 	text: string;
 };
 
-type Props = {
-	data: TSearchListItem[];
-	onSelect: (selected: TSearchListItem) => void;
+type Props<T extends any = any> = {
+	data: TSearchListItem<T>[];
+	onSelect: (selected: TSearchListItem<T>) => void;
+	renderItem?: ListRenderItem<TSearchListItem<T>>
 };
 
-export const SearchList = (p: Props) => {
+
+
+export function SearchList<T extends any = any>(p: Props<T>) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [query, setQuery] = useState("");
-	const [selected, setSelected] = useState<TSearchListItem | null>(null);
+	const [selected, setSelected] = useState<TSearchListItem<T> | null>(null);
 	const filteredItems = query === "" ? p.data : p.data.filter((i) => i.text.includes(query));
+
+	const defaultRenderItem: ListRenderItem<TSearchListItem<T>> = ({item, index}) => (
+		<TouchableOpacity
+			onPress={() => {
+				setQuery(item.text);
+				setSelected(item);
+			}}>
+			<Text style={styles.dropItem} key={index}>
+				{item.text}
+			</Text>
+		</TouchableOpacity>
+	);
+
+	const currentRenderItem = p.renderItem ?? defaultRenderItem
 
 	return (
 		<>
@@ -84,21 +100,7 @@ export const SearchList = (p: Props) => {
 							}}
 						/>
 						<VerticalMargin>
-							<FlatList
-								style={styles.list}
-								data={filteredItems}
-								renderItem={({item, index}) => (
-									<TouchableOpacity
-										onPress={() => {
-											setQuery(item.text);
-											setSelected(item);
-										}}>
-										<Text style={styles.dropItem} key={index}>
-											{item.text}
-										</Text>
-									</TouchableOpacity>
-								)}
-							/>
+							<FlatList style={styles.list} data={filteredItems} renderItem={currentRenderItem} />
 						</VerticalMargin>
 					</Wrapper>
 				</VerticalMargin>
