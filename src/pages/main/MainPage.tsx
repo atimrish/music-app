@@ -33,10 +33,10 @@ export const MainPage = () => {
                 <Text style={styles.addText}>Добавить</Text>
 
 				<View style={styles.container}>
-					<ActionButton text="Изображение" url="/add-image" />
-					<ActionButton text="Исполнителя" url="/add-author" />
-					<ActionButton text="Аудио" url="/add-audio" />
-					<ActionButton text="Плейлист" url="/add-playlist" />
+					<ActionButton text="Изображение" url="/(tabs)/main/add-audio" />
+					<ActionButton text="Исполнителя" url="/(tabs)/main/add-author" />
+					<ActionButton text="Аудио" url="/(tabs)/main/add-audio" />
+					<ActionButton text="Плейлист" url="/(tabs)/main/add-playlist" />
 				</View>
 			</View>
 		</View>

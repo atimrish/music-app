@@ -1,7 +1,7 @@
 import {MainPage} from "@/src/pages/main/MainPage";
 
-const Index = () => {
+const Main = () => {
 	return <MainPage />;
 };
 
-export default Index;
+export default Main;
