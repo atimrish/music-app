@@ -4,8 +4,8 @@ import { VerticalMargin } from "@/src/shared/ui/VerticalMargin";
 import { Wrapper } from "@/src/shared/ui/Wrapper";
 import { useEffect, useState } from "react";
 import { Dimensions, FlatList, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { getAudiosAll } from "../../audio/api/getAudiosAll";
-import { IAudio } from "../../audio/model/interfaces";
+import { getAudiosAllJoined, IJoinedAudio } from "../../audio/api/getAudiosAllJoined";
+import { SelectAudioItem } from "./SelectAudioItem";
 
 const styles = StyleSheet.create({
 	mainContainer: {
@@ -30,46 +30,69 @@ const styles = StyleSheet.create({
 		fontWeight: 700,
 	},
 	list: {
-		borderWidth: 1,
 		marginTop: 20,
 		height: Dimensions.get("window").height - 170,
-	},
-    listItem: {
-        padding: 20
-    },
-    listItemText: {
-        fontSize: 16
-    }
+	}
 });
 
-export const SelectAudios = () => {
+type Props = {
+	onDone: (ids: number[]) => void;
+};
+
+export const SelectAudios = (p: Props) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [localAudios, setLocalAudios] = useState<IAudio[]>([]);
+	const [localAudios, setLocalAudios] = useState<IJoinedAudio[]>([]);
+	const [selectedIds, setSelectedIds] = useState<Record<number, boolean>>({});
+	const [globalSelectedIds, setGlobalSelectedIds] = useState<number[]>([]);
 
 	useEffect(() => {
-		getAudiosAll().then(setLocalAudios);
+		getAudiosAllJoined().then(setLocalAudios);
 	}, []);
 
 	return (
 		<>
 			<TouchableOpacity style={styles.mainContainer} onPress={() => setIsModalOpen(true)}>
 				<View style={styles.innerContainer}>
-					<Text style={styles.text}>Выберите...</Text>
+					<Text style={styles.text}>
+						{globalSelectedIds.length > 0
+							? "Выбрано элементов: " + globalSelectedIds.length
+							: "Выберите..."}
+					</Text>
 					<Text style={styles.arrow}>{">"}</Text>
 				</View>
 			</TouchableOpacity>
 			<Modal visible={isModalOpen} animationType="slide">
 				<VerticalMargin>
 					<Wrapper>
-						<ModalTopPanel onBack={() => setIsModalOpen(false)} onDone={() => {}} />
+						<ModalTopPanel
+							onBack={() => setIsModalOpen(false)}
+							onDone={() => {
+								const ids = Object.keys(selectedIds).map((i) => +i);
+								setGlobalSelectedIds(ids);
+								p.onDone(ids);
+								setIsModalOpen(false);
+							}}
+						/>
 						<StyledTextInput />
 						<FlatList
 							style={styles.list}
 							data={localAudios}
 							renderItem={({item}) => (
-								<TouchableOpacity style={styles.listItem}>
-									<Text style={styles.listItemText}>{item.name}</Text>
-								</TouchableOpacity>
+								<SelectAudioItem
+									key={item.id}
+									name={item.name}
+									coverSrc={item.coverSrc}
+									selected={selectedIds[item.id] || false}
+									onSelect={() => {
+										if (selectedIds[item.id]) {
+											delete selectedIds[item.id];
+										} else {
+											selectedIds[item.id] = true;
+										}
+										setSelectedIds({...selectedIds});
+									}}
+									author={item.author}
+								/>
 							)}
 						/>
 					</Wrapper>
