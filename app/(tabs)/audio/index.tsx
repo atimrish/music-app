@@ -1,5 +1,7 @@
-const Index = () => {
-    return <></>
-}
+import { ListAudioPage } from "@/src/pages/list-audio/ListAudioPage";
 
-export default Index
+const Index = () => {
+	return <ListAudioPage/>
+};
+
+export default Index;

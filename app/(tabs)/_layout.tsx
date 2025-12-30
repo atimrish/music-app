@@ -6,6 +6,7 @@ const TabsLayout = () => {
 
 	return (
 		<Tabs
+            initialRouteName="main"
 			screenOptions={{
 				tabBarStyle: {
 					display: hideTabBar ? "none" : "flex",

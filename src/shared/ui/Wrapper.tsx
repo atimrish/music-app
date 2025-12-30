@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
 	container: {
-		paddingHorizontal: 30,
+		paddingHorizontal: 20,
 	},
 });
 

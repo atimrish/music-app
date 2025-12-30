@@ -1,6 +1,7 @@
 import { setup } from "@/src/main/setup/setup";
 import { Stack } from "expo-router";
 import { useEffect } from "react";
+import { StatusBar } from "react-native";
 
 const Layout = () => {
 	useEffect(() => {
@@ -10,9 +11,12 @@ const Layout = () => {
 	}, []);
 
 	return (
-		<Stack>
-			<Stack.Screen name="(tabs)" options={{headerShown: false}} />
-		</Stack>
+		<>
+			<StatusBar />
+			<Stack initialRouteName="(tabs)">
+				<Stack.Screen name="(tabs)" options={{headerShown: false}} />
+			</Stack>
+		</>
 	);
 };
 
