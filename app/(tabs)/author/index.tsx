@@ -1,5 +1,7 @@
+import { ListAuthorPage } from "@/src/pages/list-author/ListAuthorPage"
+
 const AuthorIndex = () => {
-    return <></>
+    return <ListAuthorPage/>
 }
 
 export default AuthorIndex

@@ -2,7 +2,7 @@ import { Stack } from "expo-router"
 
 const AuthorLayout = () => {
     return <Stack>
-        <Stack.Screen name="index" />
+        <Stack.Screen name="index" options={{title: 'Исполнители'}} />
     </Stack>
 }
 
