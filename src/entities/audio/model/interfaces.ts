@@ -6,3 +6,12 @@ export interface IAudio {
     authorId: number,
     createdAt: string
 }
+
+export interface IJoinedAudio {
+    id: number;
+    name: string;
+    src: string;
+    createdAt: string;
+    author: string;
+    coverSrc: string;
+}

@@ -1,15 +1,16 @@
-import { getAudiosAllJoined, IJoinedAudio } from "@/src/entities/audio/api/getAudiosAllJoined";
-import { AudioItem } from "@/src/entities/audio/ui/AudioItem";
-import { StyledTextInput } from "@/src/shared/ui/StyledTextInput";
-import { VerticalMargin } from "@/src/shared/ui/VerticalMargin";
-import { Wrapper } from "@/src/shared/ui/Wrapper";
-import { useEffect, useState } from "react";
-import { Dimensions, FlatList, StyleSheet } from "react-native";
+import {getAudiosAllJoined} from "@/src/entities/audio/api/getAudiosAllJoined";
+import { IJoinedAudio } from "@/src/entities/audio/model/interfaces";
+import {AudioItem} from "@/src/entities/audio/ui/AudioItem";
+import {StyledTextInput} from "@/src/shared/ui/StyledTextInput";
+import {VerticalMargin} from "@/src/shared/ui/VerticalMargin";
+import {Wrapper} from "@/src/shared/ui/Wrapper";
+import {useEffect, useState} from "react";
+import {Dimensions, FlatList, StyleSheet} from "react-native";
 
 const styles = StyleSheet.create({
 	list: {
-        marginTop: 20,
-        height: Dimensions.get("window").height - 220,
+		marginTop: 20,
+		height: Dimensions.get("window").height - 220,
 	},
 });
 
